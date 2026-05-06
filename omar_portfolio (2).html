@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar Seliem</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0c0b;
+  --bg2: #111009;
+  --paper: #f4f0e8;
+  --ink2: #a09890;
+  --ink3: #5a5450;
+  --accent: #e8824a;
+  --line: rgba(244,240,232,0.08);
+  --line2: rgba(244,240,232,0.14);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--paper); overflow-x: hidden; }
+
+/* CURSOR */
+.cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition: transform .1s; }
+.cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(232,130,74,0.35); border-radius: 50%; position: fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition: transform .35s ease; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:24px 52px; display:flex; justify-content:space-between; align-items:center; }
+.nav-logo { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:.12em; color:var(--paper); }
+.nav-links { display:flex; gap:36px; }
+.nav-links a { font-size:11px; font-weight:500; color:var(--ink2); text-decoration:none; letter-spacing:.1em; text-transform:uppercase; transition:color .2s; }
+.nav-links a:hover { color:var(--accent); }
+
+/* HERO */
+.hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; padding:0 52px 72px; position:relative; overflow:hidden; }
+.hero-glow { position:absolute; inset:0; background: radial-gradient(ellipse 55% 45% at 78% 18%, rgba(232,130,74,0.09) 0%, transparent 65%), radial-gradient(ellipse 35% 55% at 8% 85%, rgba(200,98,42,0.06) 0%, transparent 60%); pointer-events:none; }
+.hero-tag { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:24px; display:flex; align-items:center; gap:14px; }
+.hero-tag::before { content:''; width:32px; height:1px; background:var(--accent); }
+.hero-name { font-family:'Bebas Neue',sans-serif; font-size:clamp(72px,13vw,192px); line-height:.88; letter-spacing:-.01em; }
+.hero-name .ghost { -webkit-text-stroke:1px rgba(244,240,232,0.18); color:transparent; }
+.hero-bottom { display:flex; justify-content:space-between; align-items:flex-end; margin-top:48px; padding-top:24px; border-top:1px solid var(--line2); }
+.hero-desc { font-size:15px; font-weight:300; color:var(--ink2); line-height:1.85; max-width:400px; }
+.hero-desc em { color:var(--accent); font-style:normal; font-weight:500; }
+.scroll-cue { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink3); display:flex; flex-direction:column; align-items:center; gap:10px; }
+.scroll-cue::after { content:''; width:1px; height:48px; background:var(--ink3); animation:line 2s ease-in-out infinite; }
+@keyframes line { 0%,100%{opacity:.5;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(.5)} }
+
+/* ABOUT */
+#about { padding:120px 52px; display:grid; grid-template-columns:1fr 1fr; gap:80px; border-top:1px solid var(--line); }
+.section-micro { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:28px; }
+.about-headline { font-family:'DM Serif Display',serif; font-size:clamp(26px,3.2vw,42px); line-height:1.22; color:var(--paper); margin-bottom:32px; }
+.about-headline em { color:var(--accent); font-style:italic; }
+.about-body p { font-size:14.5px; font-weight:300; color:var(--ink2); line-height:1.9; margin-bottom:18px; }
+.about-body strong { color:var(--paper); font-weight:500; }
+
+.traits { display:flex; flex-direction:column; gap:2px; }
+.trait { padding:22px 26px; border:1px solid var(--line); display:flex; gap:20px; align-items:flex-start; transition:border-color .3s, background .3s; cursor:default; }
+.trait:hover { border-color:var(--accent); background:rgba(232,130,74,0.04); }
+.trait-n { font-family:'Bebas Neue',sans-serif; font-size:34px; color:rgba(232,130,74,0.25); line-height:1; flex-shrink:0; }
+.trait-title { font-size:13px; font-weight:500; color:var(--paper); margin-bottom:5px; }
+.trait-desc { font-size:12px; color:var(--ink2); line-height:1.65; }
+
+/* EXPERIENCE */
+#experience { padding:100px 52px; border-top:1px solid var(--line); }
+.section-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:60px; }
+.section-big { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,6vw,80px); letter-spacing:.03em; line-height:1; }
+.section-count { font-family:'Bebas Neue',sans-serif; font-size:80px; color:var(--line2); line-height:1; }
+
+.exp-item { display:grid; grid-template-columns:190px 1fr 80px; gap:40px; padding:34px 0; border-bottom:1px solid var(--line); align-items:start; }
+.exp-item:first-of-type { border-top:1px solid var(--line); }
+.exp-period { font-size:12px; color:var(--ink3); letter-spacing:.04em; margin-bottom:6px; }
+.exp-co { font-size:11px; color:var(--accent); font-weight:500; letter-spacing:.08em; text-transform:uppercase; }
+.exp-title { font-family:'DM Serif Display',serif; font-size:21px; color:var(--paper); margin-bottom:11px; line-height:1.3; }
+.exp-desc { font-size:13px; color:var(--ink2); line-height:1.75; margin-bottom:14px; }
+.exp-tags { display:flex; flex-wrap:wrap; gap:6px; }
+.exp-tag { font-size:10px; letter-spacing:.06em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--line2); color:var(--ink3); }
+.exp-arr { font-size:22px; color:var(--ink3); text-align:right; padding-top:4px; transition:color .2s, transform .2s; }
+.exp-item:hover .exp-arr { color:var(--accent); transform:translateX(4px); }
+
+/* SKILLS */
+#skills { padding:100px 52px; border-top:1px solid var(--line); background:var(--bg2); }
+.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); margin-top:60px; }
+.skill-block { background:var(--bg2); padding:34px 30px; transition:background .3s; }
+.skill-block:hover { background:rgba(232,130,74,0.05); }
+.skill-icon { font-size:20px; margin-bottom:18px; opacity:.7; }
+.skill-name { font-size:13px; font-weight:500; color:var(--paper); margin-bottom:14px; }
+.skill-item { font-size:12px; color:var(--ink2); display:flex; align-items:center; gap:8px; line-height:1; margin-bottom:8px; }
+.skill-item::before { content:'—'; color:var(--accent); font-size:10px; flex-shrink:0; }
+
+/* PROJECTS */
+#projects { padding:100px 52px; border-top:1px solid var(--line); }
+.project-item { display:grid; grid-template-columns:72px 1fr 1fr; gap:40px; padding:38px 0; border-bottom:1px solid var(--line); align-items:start; }
+.project-item:first-of-type { border-top:1px solid var(--line); }
+.project-num { font-family:'Bebas Neue',sans-serif; font-size:48px; color:var(--line2); line-height:1; }
+.project-type { font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+.project-title { font-family:'DM Serif Display',serif; font-size:21px; color:var(--paper); margin-bottom:10px; line-height:1.3; }
+.project-desc { font-size:13px; color:var(--ink2); line-height:1.75; }
+.project-outcome { font-size:13px; color:var(--ink2); line-height:1.75; padding-left:20px; border-left:2px solid var(--accent); }
+.project-outcome strong { color:var(--accent); display:block; margin-bottom:7px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; }
+
+/* CONTACT */
+#contact { padding:120px 52px; border-top:1px solid var(--line); position:relative; overflow:hidden; }
+#contact::before { content:''; position:absolute; bottom:-20%; right:-8%; width:480px; height:480px; background:radial-gradient(circle,rgba(232,130,74,0.07) 0%,transparent 70%); border-radius:50%; pointer-events:none; }
+.contact-big { font-family:'Bebas Neue',sans-serif; font-size:clamp(44px,8.5vw,124px); line-height:.9; margin-bottom:48px; }
+.contact-big a { color:var(--accent); text-decoration:none; transition:opacity .2s; }
+.contact-big a:hover { opacity:.65; }
+.contact-row { display:flex; gap:40px; align-items:center; padding-top:28px; border-top:1px solid var(--line); flex-wrap:wrap; }
+.contact-link { font-size:12px; color:var(--ink2); text-decoration:none; letter-spacing:.06em; text-transform:uppercase; display:flex; align-items:center; gap:7px; transition:color .2s; }
+.contact-link:hover { color:var(--accent); }
+.contact-link::before { content:'↗'; font-size:13px; }
+
+footer { padding:22px 52px; border-top:1px solid var(--line); display:flex; justify-content:space-between; }
+footer p { font-size:11px; color:var(--ink3); letter-spacing:.04em; }
+
+/* REVEAL */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+.reveal.on { opacity:1; transform:translateY(0); }
+
+@media(max-width:768px){
+  nav{padding:18px 24px;}
+  .nav-links{gap:18px;}
+  .hero{padding:0 24px 52px;}
+  #about{grid-template-columns:1fr;gap:48px;padding:72px 24px;}
+  #experience,#skills,#projects,#contact{padding:72px 24px;}
+  .exp-item{grid-template-columns:1fr;gap:10px;}
+  .exp-arr{display:none;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .project-item{grid-template-columns:48px 1fr;gap:20px;}
+  .project-outcome{display:none;}
+  .section-count{display:none;}
+  footer{padding:18px 24px;flex-direction:column;gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <div class="nav-logo">OS</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Work</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag reveal">Customer Experience &amp; Operations Specialist</div>
+  <h1 class="hero-name reveal" style="transition-delay:.1s">
+    OMAR<br><span class="ghost">SELIEM</span>
+  </h1>
+  <div class="hero-bottom reveal" style="transition-delay:.2s">
+    <p class="hero-desc">
+      Data-driven. People-focused. Started working at <em>14</em> —
+      never stopped since. Based in Cairo, open to the world remotely.
+    </p>
+    <div class="scroll-cue">Scroll</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-micro">Who I am</div>
+    <h2 class="about-headline">Independent by nature.<br><em>Relentless</em> by choice.</h2>
+    <div class="about-body">
+      <p>I started working at <strong>14 years old</strong>. Not because I had to — because something in me always needed to move, build, and figure things out. That drive never left.</p>
+      <p>I'm an <strong>overthinker</strong> — which sounds like a flaw until you realize it means I've already considered every angle before the meeting starts. I obsess over details others skip.</p>
+      <p>I'm always trying to be <strong>a step ahead</strong>. Sometimes I'm moving fast in the right direction. Sometimes I'm lost — sitting with uncertainty, rebuilding the map. Both are part of it.</p>
+      <p>Right now I'm at the intersection of <strong>customer experience, data, and business growth</strong> — pushing further into analytics and strategy. Not because I was told to. Because that's where I want to go.</p>
+    </div>
+  </div>
+  <div class="traits reveal" style="transition-delay:.15s">
+    <div class="trait">
+      <div class="trait-n">01</div>
+      <div>
+        <div class="trait-title">Started at 14</div>
+        <div class="trait-desc">Work isn't something I fell into. I chose it early. That gave me a head start on reading people, handling pressure, and figuring out what actually matters.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-n">02</div>
+      <div>
+        <div class="trait-title">Independent operator</div>
+        <div class="trait-desc">I don't wait for direction. I identify what needs doing and do it. Remote work isn't a challenge — it's where I thrive.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-n">03</div>
+      <div>
+        <div class="trait-title">The overthinker advantage</div>
+        <div class="trait-desc">I've learned to turn the noise in my head into signal. Every decision gets stress-tested before it's made.</div>
+      </div>
+    </div>
+    <div class="trait">
+      <div class="trait-n">04</div>
+      <div>
+        <div class="trait-title">Always one step ahead</div>
+        <div class="trait-desc">I anticipate — customer needs, team gaps, process failures. Not because I'm told to. Because I can't help it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-head reveal">
+    <div>
+      <div class="section-micro">Career</div>
+      <div class="section-big">EXPERIENCE</div>
+    </div>
+    <div class="section-count">03</div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-period">Oct 2024 — Present</div><div class="exp-co">Home Hive</div></div>
+    <div>
+      <div class="exp-title">Operations & Customer Experience Analyst</div>
+      <div class="exp-desc">Managed the end-to-end customer journey from order to delivery. Led a moderation team handling high-volume communications, tracked delivery KPIs, and coordinated between logistics and CS teams to resolve real-time issues.</div>
+      <div class="exp-tags"><span class="exp-tag">Operations</span><span class="exp-tag">KPI Tracking</span><span class="exp-tag">Team Lead</span><span class="exp-tag">Logistics</span><span class="exp-tag">Process Optimization</span></div>
+    </div>
+    <div class="exp-arr">→</div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-period">Aug 2023 — Sep 2024</div><div class="exp-co">Amazon</div></div>
+    <div>
+      <div class="exp-title">Regional UX Specialist — Egypt</div>
+      <div class="exp-desc">Analyzed customer behavior and interaction data to identify purchasing friction points. Monitored concession patterns, identified anomalies, and collaborated with Quality & CAP teams to investigate root causes and drive process improvements.</div>
+      <div class="exp-tags"><span class="exp-tag">Data Analysis</span><span class="exp-tag">UX Research</span><span class="exp-tag">Reporting</span><span class="exp-tag">Root Cause Analysis</span></div>
+    </div>
+    <div class="exp-arr">→</div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-period">Jan 2023 — Jul 2023</div><div class="exp-co">El-Adel Eyewear</div></div>
+    <div>
+      <div class="exp-title">Sales Specialist</div>
+      <div class="exp-desc">Delivered strong customer engagement by understanding client needs and recommending suitable products. Built lasting client relationships and consistently met sales targets.</div>
+      <div class="exp-tags"><span class="exp-tag">Sales</span><span class="exp-tag">Client Relations</span><span class="exp-tag">Negotiation</span></div>
+    </div>
+    <div class="exp-arr">→</div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-head reveal">
+    <div>
+      <div class="section-micro">Capabilities</div>
+      <div class="section-big">SKILLS</div>
+    </div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-block reveal">
+      <div class="skill-icon">◈</div>
+      <div class="skill-name">Data & Analytics</div>
+      <div class="skill-item">Excel — Pivot Tables, VLOOKUP</div>
+      <div class="skill-item">Dashboard Monitoring</div>
+      <div class="skill-item">KPI Tracking & Reporting</div>
+      <div class="skill-item">Market Research</div>
+      <div class="skill-item">SQL (in progress)</div>
+    </div>
+    <div class="skill-block reveal" style="transition-delay:.05s">
+      <div class="skill-icon">◎</div>
+      <div class="skill-name">Customer Experience</div>
+      <div class="skill-item">End-to-end Journey Mgmt</div>
+      <div class="skill-item">Feedback & Ticket Analysis</div>
+      <div class="skill-item">CRM — HubSpot</div>
+      <div class="skill-item">Moderation & QA</div>
+      <div class="skill-item">Issue Resolution</div>
+    </div>
+    <div class="skill-block reveal" style="transition-delay:.1s">
+      <div class="skill-icon">⬡</div>
+      <div class="skill-name">Operations</div>
+      <div class="skill-item">Process Optimization</div>
+      <div class="skill-item">Logistics Coordination</div>
+      <div class="skill-item">Team Supervision</div>
+      <div class="skill-item">Lean Six Sigma — White Belt</div>
+      <div class="skill-item">Cross-functional Collab</div>
+    </div>
+    <div class="skill-block reveal" style="transition-delay:.15s">
+      <div class="skill-icon">◇</div>
+      <div class="skill-name">Business Development</div>
+      <div class="skill-item">Relationship Building</div>
+      <div class="skill-item">Competitive Analysis</div>
+      <div class="skill-item">Negotiation & Objection Handling</div>
+      <div class="skill-item">Client Retention</div>
+      <div class="skill-item">Strategic Partnerships</div>
+    </div>
+    <div class="skill-block reveal" style="transition-delay:.2s">
+      <div class="skill-icon">◈</div>
+      <div class="skill-name">Communication</div>
+      <div class="skill-item">English — Fluent</div>
+      <div class="skill-item">Arabic — Native</div>
+      <div class="skill-item">Stakeholder Management</div>
+      <div class="skill-item">Report Writing</div>
+    </div>
+    <div class="skill-block reveal" style="transition-delay:.25s">
+      <div class="skill-icon">◎</div>
+      <div class="skill-name">Currently Learning</div>
+      <div class="skill-item">SQL — SQLZoo & Mode</div>
+      <div class="skill-item">Power BI — Microsoft Learn</div>
+      <div class="skill-item">Digital Marketing — Udacity</div>
+      <div class="skill-item">BBA — Cairo University 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-head reveal">
+    <div>
+      <div class="section-micro">Work Samples</div>
+      <div class="section-big">PROJECTS</div>
+    </div>
+    <div class="section-count">04</div>
+  </div>
+
+  <div class="project-item reveal">
+    <div class="project-num">01</div>
+    <div>
+      <div class="project-type">Amazon · Data Analysis</div>
+      <div class="project-title">Concession Pattern Analysis</div>
+      <div class="project-desc">Monitored concession patterns on non-returnable items across Egypt. Identified anomalies in refund behavior, collaborated with Quality and CAP teams to investigate root causes and reduce fraudulent patterns.</div>
+    </div>
+    <div class="project-outcome"><strong>Impact</strong>Measurable reduction in process gaps. Findings escalated to regional quality teams and influenced policy updates.</div>
+  </div>
+
+  <div class="project-item reveal">
+    <div class="project-num">02</div>
+    <div>
+      <div class="project-type">Amazon · UX Research</div>
+      <div class="project-title">Purchasing Friction Reduction</div>
+      <div class="project-desc">Analyzed customer interaction data and support tickets to identify recurring pain points in the purchasing flow. Delivered data-driven recommendations implemented in the regional UX strategy.</div>
+    </div>
+    <div class="project-outcome"><strong>Impact</strong>Insights adopted across regional UX improvements. Reduced recurring support ticket categories by identifying root causes.</div>
+  </div>
+
+  <div class="project-item reveal">
+    <div class="project-num">03</div>
+    <div>
+      <div class="project-type">Home Hive · Operations</div>
+      <div class="project-title">Delivery Performance System</div>
+      <div class="project-desc">Built and managed a tracking system for delivery performance metrics including AWB tracking and delay identification. Created dashboards giving leadership real-time KPI visibility.</div>
+    </div>
+    <div class="project-outcome"><strong>Impact</strong>Improved on-time delivery visibility. Enabled proactive issue resolution before customer escalation.</div>
+  </div>
+
+  <div class="project-item reveal">
+    <div class="project-num">04</div>
+    <div>
+      <div class="project-type">Home Hive · Leadership</div>
+      <div class="project-title">Moderation Team Optimization</div>
+      <div class="project-desc">Led a moderation team handling high-volume customer communications. Streamlined workflows, established quality standards, and coordinated cross-team to resolve escalations faster.</div>
+    </div>
+    <div class="project-outcome"><strong>Impact</strong>Maintained quality at scale. Reduced average resolution time through better coordination protocols.</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-micro reveal">Let's connect</div>
+  <div class="contact-big reveal" style="transition-delay:.1s">
+    REACH OUT<br>
+    <a href="mailto:O.seliem@outlook.com">VIA EMAIL</a>
+  </div>
+  <div class="contact-row reveal" style="transition-delay:.2s">
+    <a href="mailto:O.seliem@outlook.com" class="contact-link">O.seliem@outlook.com</a>
+    <a href="https://linkedin.com/in/omar-seliem" target="_blank" class="contact-link">LinkedIn</a>
+    <a href="tel:+201091453443" class="contact-link">+20 109 145 3443</a>
+    <span class="contact-link" style="pointer-events:none">Cairo, Egypt · Remote</span>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Omar Seliem</p>
+  <p>Built with intent. Open to the world.</p>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+const ring = document.getElementById('ring');
+document.addEventListener('mousemove', e => {
+  cur.style.transform = `translate(${e.clientX-4}px,${e.clientY-4}px)`;
+  ring.style.transform = `translate(${e.clientX-18}px,${e.clientY-18}px)`;
+});
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
